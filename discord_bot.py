@@ -1,11 +1,11 @@
-#Weather Bot
+#matthew tamer
 #libraries
 import discord
 import os
 import random
 import requests  #for working with apis
 import json  #apis return json files
-from weather_info import get_weather_info
+from weather_info import get_weather_info, get_weather
 from replit import db  #database
 #from keep_alive import keep_alive
 
@@ -33,7 +33,7 @@ async def on_message(message):
     await message.channel.send("$commands --> Sends this Message \n" 
                                "$setlocation [city] [country code] --> Sets the location to check the weather. Country code is the 2 letters that describe your country. Example Canada = CA \n" 
                                "$location --> Checks what the location is currently set to. \n"
-                               "$weather [now|daily|weekly] --> Sends the current forecast \n"
+                               "$weather [now|today|week] --> Sends the current forecast \n"
                                "$setalert [alert] --> Creates a certain weater alert to notify the user about")
   
   #allow user to set their location
@@ -48,9 +48,13 @@ async def on_message(message):
     pass
   if msg.startswith('$weather '):
     timeframe = msg.split[1]
-    pass
+    location = 1 #get from database
+    if get_weather(location, timeframe) != 'error':
+      pass
+    else:
+      await message.channel.send("Invalid timeframe. Command usage: $weather [now|today|week[")
   if msg.startswith('$setalert '):
     pass
 
-#keep_alive() implement later
+#keep_alive() implement later, have it also check the full weather for alerts every time it is pinged if possible
 client.run(token)
